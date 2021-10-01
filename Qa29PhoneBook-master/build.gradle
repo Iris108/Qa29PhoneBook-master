@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group 'com.telran'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    implementation 'org.testng:testng:7.4.0'
+
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+test {
+    useTestNG()
+}
+
+task reg(type: Test){
+
+    useTestNG{
+        def suite = System.getProperty('suite', '')
+        if (suite.equals('regng')) {
+            suites 'src/test/resources/regng.xml'
+        } else if (suite.equals('smoke')) {
+            suites 'src/test/resources/smoke.xml'
+        } else {
+            suites 'src/test/resources/testng.xml'
+        }
+
+    }
+
+
+}
+
+
+
+
